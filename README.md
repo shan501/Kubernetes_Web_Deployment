@@ -3,6 +3,13 @@ In this guide i will go over how to use Kubernetes to deploy a web app with a ma
 up a local cluster.I will create a config , service , and deployment file using yaml.I used Kubernetes documentation for this project as well
 as this youtube video https://www.youtube.com/watch?v=s_o8dwzRlu4&t=1138s.
 
+## Introduction
+ConfigMap and Secrets are external configuration.These are for storing configuration details that you dont want to hard code in the deployment file.
+When you hard code configurations in the deployment file and you want to change it , you would need to build everything from scratch again.You would need
+to build a new image, push it to repo , pull it in your pod , and deploy your pot all over again.The Secrets are used to store confidentiaal information
+such as username and password to a database server where configmap stores insensitive information such as the mapping to a Service.
+
+
 ## Installation 
 Minikube can run either on a virtual machine or as a docker container.I will be using windows to install Minikube.First you would have to 
 download Docker Desktop for windows.Then you need to download Minikube either by downloading the exe file or Powershell.Then run the command

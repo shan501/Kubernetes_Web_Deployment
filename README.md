@@ -12,8 +12,8 @@ such as username and password to a database server where configmap stores insens
 
 ## Installation 
 Minikube can run either on a virtual machine or as a docker container.I will be using windows to install Minikube.First you would have to 
-download Docker Desktop for windows.Then you need to download Minikube either by downloading the exe file or Powershell.Then run the command
-minikube start. Minikube CLI is for starting and deleteing the cluster 
+download Docker Desktop for Windows.Then you need to download Minikube either by downloading the exe file or Powershell.Then run the command
+minikube start. Minikube CLI is for starting and deleteing the cluster and you use kubectl to interact with the cluster.
 
 
 ## Create a config map

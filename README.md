@@ -17,7 +17,8 @@ minikube start. Minikube CLI is for starting and deleteing the cluster and you u
 
 
 ## Create a config map
-I qill create a configMap to map the web app to the database
+I will create a configMap to map the database to the web-app.The web-app will use the key under mango-url to know what database
+to map to.
 ```
 apiVersion: v1
 kind: ConfigMap

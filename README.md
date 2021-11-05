@@ -20,7 +20,8 @@ data:
   mongo-url : mango-service 
 ```
 The name of this is called mango-config-map .The data attribute maps to the mango database that we will create later.We will attach a service
-to the mangodb database.
+to the mangodb database.The mango-url maps the mango-service that we are going to set up latter.The service gives the database an IP that will not
+be changed on reboot
 
 ## Create a Secret
 We will create a secret to hold the username and password to our database
@@ -46,9 +47,9 @@ kind: Deployment
 metadata:
   name: mango-deployment
   labels:
-    app: nginx
+    app: mango
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: mango
@@ -74,8 +75,26 @@ to which deployment file.What is listed under matchlabels , should be the label 
 
 If you want a replica of multiple databases you should use startfulset instead of deployments. 
 
+We also want to use the secret file we created before to store the username and password for our database.
+```
+ env:
+ - name:MANGO_INITDB_ROOT_USERNAME
+   valueFrom:
+    secretKeyRef:
+      name:mango-secret
+      key:mango-user 
+ env:
+ - name:MANGO_INITDB_ROOT_PASSWORD
+   valueFrom:
+    secretKeyRef:
+      name:mango-secret
+      key:mango-password
+```
+We set the name for the enviormental variable.Then we can just reference the value we set for password and username in the secrets
+file by using the name of the file "mango-secret" and key for either the user or password.
 
-## Create Service 
+
+## Create Service for Database
 We will now attach a service to our mango database
 ```
 apiVersion: v1
@@ -116,9 +135,51 @@ spec:
       - name: web
         image: "web image"
         ports:
-        - containerPort: 27017
+        - containerPort: 1337
 
 ```
+The image should be the image for your web-app.Then we need to configure the web app to be able to access the database 
+```
+env:
+  - name:USER_NAME
+    valueFrom:
+      secretKeyRef:
+        name:mango-secret
+        key:mango-user
+   - name:USER_NAME
+    valueFrom:
+      secretKeyRef:
+        name:mango-secret
+        key:mango-password
+   - name:DB_URL
+    valueFrom:
+      configMapKeyRef:
+        name: mango-config
+        key: mango-url 
+        
+```
+Add these enviormenetal variables to the web-app so it can connect to the database.It uses the secrets from the file we set before , as well
+as the configmap we set before.
+
+
+
+## Create a Service File for the Web App 
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+spec:
+  selector:
+    app: web 
+  ports:
+    - protocol: TCP
+      port: 1337
+      target port : 1337
+```
+This service will now map to the web app.
+
+
 
 
 

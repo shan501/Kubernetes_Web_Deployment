@@ -162,7 +162,6 @@ Add these enviormenetal variables to the web-app so it can connect to the databa
 as the configmap we set before.
 
 
-
 ## Create a Service File for the Web App 
 ```
 apiVersion: v1
@@ -170,15 +169,25 @@ kind: Service
 metadata:
   name: web-service
 spec:
+  type : NodePort
   selector:
     app: web 
   ports:
     - protocol: TCP
       port: 1337
       target port : 1337
+      NodePort:30010
 ```
-This service will now map to the web app.
+This service will now map to the web app.There is no configuration that is hard coded in this cluster.This makes it easy for us to 
+make changes in the future.The "type:nodePort" are ports that will be opened on the nodes that external clients can connect to.They just
+need to enter the node ip and port. The node port must be in the range of 30000-32767.
 
+## Deploy the Pods
+We just need to use the command 
+```
+kubectl get "file name"
+```
+for each yaml file we created.The configmap and secrets pods needs to be created first because other pods reference these two pods.
 
 
 

@@ -190,6 +190,24 @@ kubectl get "file name"
 for each yaml file we created.The configmap and secrets pods needs to be created first because other pods reference these two pods.
 
 
+## Kubernetes command lines
+Simple commands you can run to interact with the kubernetes cluster your just made
+```
+kubectl get all
+```
+Gives you everything that is running right now.
+
+```
+kubectl get "resources"
+```
+You can put things such as configmap ,secrets .pods over resources.
+```
+kubectl describe "resources"
+```
+Gives you detailed information of the resource.
+
+
+
 
 
 
